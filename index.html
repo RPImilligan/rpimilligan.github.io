@@ -39,57 +39,13 @@
             FastClick.attach(document.body);
         }, false);
         
-        var rooms = {
-            "7": { "min": 56, "max": 80, "doubles": [57, 59, 69] },
-            "8": { "min": 53, "max": 80, "doubles": [53, 57, 61, 69, 73, 75, 79] },
-            "9": { "min": 56, "max": 82, "doubles": [63, 65, 73, 75, 77, 79] },
-            "10": { "min": 56, "max": 82, "doubles": [63, 65, 73, 75, 77, 79] },
-            "11": { "min": 64, "max": 82, "doubles": [73, 75, 77] },
-            "12": { "min": 56, "max": 82, "doubles": [63, 65, 73, 75] },
-            "14": { "min": 58, "max": 82, "doubles": [58, 79, 81] },
-            "16": { "min": 56, "max": 82, "doubles": [63, 65, 73, 75, 77, 79] },
-            "17": { "min": 56, "max": 82, "doubles": [63, 65, 73, 75, 77, 79] }
-        };
-        
-        function room2ext(roomnum) {
-        	var floor_room_bed = roomnum.match(/^(1[^\D359]|[7-9])([0-9]{2})([1-2])?$/);
-        	if(floor_room_bed) {
-	        	var floor = parseInt(floor_room_bed[1]);
-	        	var room = parseInt(floor_room_bed[2]);
-	        	var bed = parseInt(floor_room_bed[3]) || 0;
-
-                if([11,18].indexOf(floor) >= 0 && room <= 30) { // Jones (Note: no way to call CCU directly)
-                	//return '14' + roomnum.substring(1, 4); // or 20634...
-                	return '2063414' + roomnum.substring(1, 4); // or 20634...
-                } else if(rooms[floor] && rooms[floor].min <= room && room <= rooms[floor].max) { // Main
-                    var prefix = (rooms[floor].doubles.indexOf(room) < 0 || [1,2].indexOf(bed) >= 0) ? String(Math.max(1, bed)) : '';
-                	return prefix + String('0' + floor + room).slice(-4);
-                } else {
-                	console.log("Not a known room");
-                }
-        	}
-        	return '';
-        }
-        
         function tryDialExtension(event) {
             var ext = document.getElementById('ext').value.replace(/\D/g, '');
             if(ext.length == 5) location.href='tel:6177325500,2' + ext + '#';
-            else if(ext == '0') location.href='tel:2066257373,0#';
+            else if(ext == '0') location.href='tel:6177325500,0#';
         }
         
-        function tryDialPatientRoom(event) {
-            var room = document.getElementById('room').value;
-            ext = room2ext(room);
-            if(ext.length == 10)
-                location.href='tel:' + ext;
-            else if(ext.length == 5)
-                location.href='tel:2066257373,' + ext + '#';
-            else if(event.keyCode == 13 /*Return*/ && ext.length == 4 && confirm('This room has 2 beds.  Call bed #1 ?'))
-                location.href='tel:2066257373,' + '1' + ext + '#';
-            else if(event.keyCode == 8 /*Delete*/)
-                return;
-        }
-		</script>
+   		</script>
 <BODY>
 <div class="header">BWH/DFCI</div>
 
